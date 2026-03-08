@@ -1,19 +1,23 @@
-импорт асинкио
-от айограмма импорт Бот, Диспетчер
-от айограмма.типы импорт Сообщение
-от айограммы.фильтры импорт CommandStart
+import asyncio
+import os
+from aiogram import Bot, Dispatcher
+from aiogram.types import Message
+from aiogram.filters import CommandStart
 
-ТОКЕН = "ТУТ_БУДЕТ_ТОКЕН_БОТА"
+TOKEN = os.getenv("8773515752:AAGIXz1t-JhRIbPMV46pfvnyQAl_G8c6u-Q")
 
-бот = Бот(токен=ТОКЕН)
-дп = Диспетчер()
+if not TOKEN:
+    raise ValueError("8773515752:AAGIXz1t-JhRIbPMV46pfvnyQAl_G8c6u-Q не найден в переменных окружения")
 
-@дп.сообщенье(CommandStart())
-асинхронный деф начинать(сообщение: Сообщение):
- ждать сообщение.отвечать("Бот работает.")
+bot = Bot(token=TOKEN)
+dp = Dispatcher()
 
-асинхронный деф основной():
- ждать дп.старт_опроса(бот)
+@dp.message(CommandStart())
+async def start(message: Message):
+    await message.answer("Бот работает.")
 
-если __имя__ == "__основной__":
- асинсио.бегать(основной())
+async def main():
+    await dp.start_polling(bot)
+
+if __name__ == "__main__":
+    asyncio.run(main())
